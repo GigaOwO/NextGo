@@ -18,19 +18,14 @@ services:
     ports:
       - 3000:3000 
   db:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: NextGo
-      MYSQL_USER: NextGo
-      MYSQL_PASSWORD: password
-      TZ: 'Asia/Tokyo'
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    volumes:
-      - db-data:/var/lib/mysql
-      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    image: "postgres:15-alpine"
     ports:
-      - 3306:3306
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db
+    volumes:
+      - db-store:/var/lib/postgresql/data
+
 volumes:
-  db-data:
-    driver: local
+  db-store:
